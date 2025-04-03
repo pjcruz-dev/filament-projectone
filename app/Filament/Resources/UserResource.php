@@ -30,7 +30,7 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
-                    ->unique(User::class, 'email')
+                    ->unique(ignoreRecord: true) // This ignores the current record during update
                     ->maxLength(255),
                 Forms\Components\Select::make('roles')
                     ->relationship('roles', 'name')

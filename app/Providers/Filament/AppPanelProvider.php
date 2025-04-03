@@ -6,9 +6,11 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
+use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
 use Illuminate\Support\Facades\Auth;
 use Filament\Http\Middleware\Authenticate;
+use Rmsramos\Activitylog\ActivitylogPlugin;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -19,9 +21,8 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
-use Filament\Navigation\MenuItem;
 use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
+use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
 
 class AppPanelProvider extends PanelProvider
 {
@@ -83,7 +84,18 @@ class AppPanelProvider extends PanelProvider
                 ->shouldRegisterNavigation(false)
                 ->shouldShowDeleteAccountForm(false)
                 ->shouldShowBrowserSessionsForm()
-                ->shouldShowAvatarForm()
+                ->shouldShowAvatarForm(),
+                ActivitylogPlugin::make()
+                ->label('Log')
+                ->pluralLabel('Logs')
+                ->navigationItem(true)
+                ->navigationGroup('Filament Shield')
+                ->navigationIcon('heroicon-o-shield-check')
+                ->navigationCountBadge(true)
+                ->navigationSort(2)
+                ->authorize(
+                    fn () => Auth::user()->id === 1
+                ),
             ]);
     }
 }
