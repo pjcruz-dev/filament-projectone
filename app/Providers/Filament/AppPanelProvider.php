@@ -73,7 +73,17 @@ class AppPanelProvider extends PanelProvider
             ->plugins([
                 FilamentShieldPlugin::make(),
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
-               FilamentEditProfilePlugin::make(),
+               FilamentEditProfilePlugin::make()
+                ->slug('my-profile')
+                ->setTitle('My Profile')
+                ->setNavigationLabel('My Profile')
+                ->setNavigationGroup('Group Profile')
+                ->setIcon('heroicon-o-user')
+                ->setSort(10)
+                ->shouldRegisterNavigation(false)
+                ->shouldShowDeleteAccountForm(false)
+                ->shouldShowBrowserSessionsForm()
+                ->shouldShowAvatarForm()
             ]);
     }
 }
